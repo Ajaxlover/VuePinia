@@ -1,25 +1,5 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import Child from './components/Child.vue'
-import { ref, useTemplateRef, onMounted } from 'vue'
-
-let car = ref('子组件')
-let toy = ref('')
-
-function getToy(d) {
-  console.log(d)
-  toy.value = d
-}
-
-let aaa = useTemplateRef('sonComp')
-// 写法二
-const sonComp = ref(null)
-
-onMounted(() => {
-  console.log('写法一：', aaa.value.toy3)
-  aaa.value.sonMethod()
-  console.log('写法二：', sonComp.value.toy3)
-})
 </script>
 
 <template>
@@ -33,13 +13,10 @@ onMounted(() => {
     />
 
     <div class="wrapper">
-      <div>父组件</div>
-      <div>子传父：{{ toy }}</div>
-      <Child ref="sonComp" :msg="car" :sendToy="getToy" @send-toy2="getToy" />
-
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/">首页</RouterLink>
+        <RouterLink to="/snake">贪吃蛇</RouterLink>
+        <RouterLink to="/about">关于</RouterLink>
       </nav>
     </div>
   </header>

@@ -1,0 +1,16 @@
+# 浏览器支持配置
+# 用于 Autoprefixer 和其他工具
+
+# 现代浏览器
+Chrome >= 60
+Firefox >= 60
+Safari >= 12
+Edge >= 79
+
+# 市场份额
+> 1%
+last 2 versions
+
+# 排除已停止支持的浏览器
+not dead
+not IE 11
