@@ -14,7 +14,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">首页</RouterLink>
+        <RouterLink to="/">首页111</RouterLink>
         <RouterLink to="/snake">贪吃蛇</RouterLink>
         <RouterLink to="/about">关于</RouterLink>
       </nav>
