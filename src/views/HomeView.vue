@@ -5,12 +5,14 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <main class="home-container">
-    <h1>欢迎来到Vue3小游戏</h1>
+    <h1>欢迎来到Vue3小游戏,测试CI</h1>
     <div class="game-links">
       <RouterLink to="/snake" class="game-link">
         <div class="game-card">
           <h2>贪吃蛇</h2>
-          <p>经典的贪吃蛇游戏，使用方向键控制蛇移动，吃到食物可以增加长度和分数。</p>
+          <p>
+            经典的贪吃蛇游戏，使用方向键控制蛇移动，吃到食物可以增加长度和分数。
+          </p>
         </div>
       </RouterLink>
     </div>
@@ -58,7 +60,7 @@ h1 {
 }
 
 .game-card h2 {
-  color: #4CAF50;
+  color: #4caf50;
   margin-bottom: 10px;
 }
 
