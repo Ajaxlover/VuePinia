@@ -9,6 +9,8 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   
   return {
+    // GitHub Pages 部署配置
+    base: process.env.NODE_ENV === 'production' ? '/vue3_start/' : '/',
     // 插件配置
     plugins: [
       vue({
