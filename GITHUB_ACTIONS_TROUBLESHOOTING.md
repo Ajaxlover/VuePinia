@@ -53,6 +53,39 @@ const router = createRouter({
 - `index.html`：包含 SPA 重定向脚本
 - 路由配置：使用 `createWebHistory` 模式
 
+## ⚠️ 多平台部署配置
+
+### Vercel vs GitHub Pages 路径问题
+**问题**: 在 Vercel 部署后 JS/CSS 资源加载失败，显示 404 错误
+
+**原因**: 不同部署平台需要不同的 base 路径配置
+- Vercel: 需要根路径 `/`
+- GitHub Pages: 需要子路径 `/VuePinia/`
+
+**解决方案**: 项目已配置自动检测部署平台
+```javascript
+// vite.config.js 自动检测逻辑
+const getBasePath = () => {
+  if (command === 'serve') return '/'           // 开发环境
+  if (process.env.VERCEL) return '/'            // Vercel 部署
+  if (process.env.GITHUB_ACTIONS) return '/VuePinia/'  // GitHub Pages
+  return '/'                                    // 默认
+}
+```
+
+### 验证部署平台
+- **Vercel**: 检查资源路径为 `/js/main-xxx.js`
+- **GitHub Pages**: 检查资源路径为 `/VuePinia/js/main-xxx.js`
+
+### 手动测试
+```bash
+# 模拟 Vercel 构建
+VERCEL=1 npm run build
+
+# 模拟 GitHub Pages 构建  
+GITHUB_ACTIONS=1 npm run build
+```
+
 ## 常见失败原因及解决方案
 
 ### 1. 权限问题
