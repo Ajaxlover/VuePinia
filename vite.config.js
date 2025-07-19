@@ -10,7 +10,7 @@ export default defineConfig(({ command, mode }) => {
   
   return {
     // GitHub Pages 部署配置
-    base: process.env.NODE_ENV === 'production' ? '/vue3_start/' : '/',
+    base: process.env.NODE_ENV === 'production' ? '/VuePinia/' : '/',
     // 插件配置
     plugins: [
       vue({

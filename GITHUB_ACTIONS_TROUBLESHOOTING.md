@@ -1,5 +1,24 @@
 # GitHub Actions CI 故障排除指南
 
+## ⚠️ 重要：仓库名称配置
+
+### 路径配置问题
+**最常见的问题**: GitHub Pages 无法访问，显示 404 错误
+
+**原因**: `vite.config.js` 中的 `base` 路径与实际 GitHub 仓库名称不匹配
+
+**解决方案**:
+1. 确认您的 GitHub 仓库名称（例如：`VuePinia`）
+2. 在 `vite.config.js` 中设置正确的 base 路径：
+   ```javascript
+   base: process.env.NODE_ENV === 'production' ? '/VuePinia/' : '/',
+   ```
+3. 重新构建项目：`npm run build`
+4. 提交并推送更改
+
+**访问地址格式**: `https://username.github.io/repository-name/`
+- 示例：`https://ajaxlover.github.io/VuePinia/`
+
 ## 常见失败原因及解决方案
 
 ### 1. 权限问题
