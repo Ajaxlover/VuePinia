@@ -8,9 +8,27 @@ export default defineConfig(({ command, mode }) => {
   // 加载环境变量
   const env = loadEnv(mode, process.cwd(), '')
   
+  // 动态设置 base 路径
+  const getBasePath = () => {
+    // 开发环境始终使用根路径
+    if (command === 'serve') return '/'
+    
+    // 生产环境根据部署平台设置
+    if (process.env.VERCEL) {
+      // Vercel 部署
+      return '/'
+    } else if (process.env.GITHUB_ACTIONS) {
+      // GitHub Pages 部署
+      return '/VuePinia/'
+    } else {
+      // 默认情况（本地构建）
+      return '/'
+    }
+  }
+  
   return {
-    // GitHub Pages 部署配置
-    base: process.env.NODE_ENV === 'production' ? '/VuePinia/' : '/',
+    // 多平台部署配置
+    base: getBasePath(),
     // 插件配置
     plugins: [
       vue({
