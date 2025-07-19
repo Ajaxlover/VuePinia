@@ -15,6 +15,7 @@ const toIncrement = () => {
     <h1>组件公共属性{{ counter.count }}</h1>
     <button @click="toIncrement">+1</button>
     <button @click="counter.incrementAsync()">3s后+1</button>
+    <div>github page 自动化部署</div>
   </div>
 </template>
 
