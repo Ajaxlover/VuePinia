@@ -19,6 +19,40 @@
 **访问地址格式**: `https://username.github.io/repository-name/`
 - 示例：`https://ajaxlover.github.io/VuePinia/`
 
+## ⚠️ Vue Router 刷新 404 问题
+
+### 问题描述
+在 GitHub Pages 上使用 Vue Router 时，直接访问路由或刷新页面会出现 404 错误。
+
+### 原因
+GitHub Pages 是静态托管服务，不支持服务端路由重定向。当用户直接访问 `/about` 这样的路由时，服务器会尝试查找对应的文件，但实际上这些路由只存在于客户端。
+
+### 解决方案
+
+#### 方案一：Hash 模式（简单但 URL 不美观）
+```javascript
+// src/router/index.js
+import { createRouter, createWebHashHistory } from 'vue-router'
+
+const router = createRouter({
+  history: createWebHashHistory(import.meta.env.BASE_URL),
+  routes: [...]
+})
+```
+- 优点：无需额外配置，完全兼容静态托管
+- 缺点：URL 包含 `#` 符号，如 `/#/about`
+
+#### 方案二：History 模式 + SPA 重定向（推荐）
+已在项目中实现：
+1. **404.html 重定向文件**：自动将 404 请求重定向到主页
+2. **index.html 脚本**：解析重定向参数并恢复正确的路由
+3. **保持 History 模式**：URL 保持美观，如 `/about`
+
+### 实现细节
+- `public/404.html`：处理 GitHub Pages 的 404 重定向
+- `index.html`：包含 SPA 重定向脚本
+- 路由配置：使用 `createWebHistory` 模式
+
 ## 常见失败原因及解决方案
 
 ### 1. 权限问题
