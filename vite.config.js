@@ -7,25 +7,25 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig(({ command, mode }) => {
   // 加载环境变量
   const env = loadEnv(mode, process.cwd(), '')
-  
+
   // 动态设置 base 路径
   const getBasePath = () => {
     // 开发环境始终使用根路径
     if (command === 'serve') return '/'
-    
+
     // 生产环境根据部署平台设置
     if (process.env.VERCEL) {
       // Vercel 部署
       return '/'
     } else if (process.env.GITHUB_ACTIONS) {
       // GitHub Pages 部署
-      return '/VuePinia/'
+      return '/VuePinia'
     } else {
       // 默认情况（本地构建）
       return '/'
     }
   }
-  
+
   return {
     // 多平台部署配置
     base: getBasePath(),
@@ -36,21 +36,21 @@ export default defineConfig(({ command, mode }) => {
         reactivityTransform: true, // 启用响应式语法糖
         script: {
           defineModel: true, // 启用 defineModel
-          propsDestructure: true // 启用 props 解构
-        }
+          propsDestructure: true, // 启用 props 解构
+        },
       }),
       // 仅在开发环境启用 devtools
-      ...(command === 'serve' ? [vueDevTools()] : [])
+      ...(command === 'serve' ? [vueDevTools()] : []),
     ],
 
     // 路径解析优化
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
-        '~': fileURLToPath(new URL('./node_modules', import.meta.url))
+        '~': fileURLToPath(new URL('./node_modules', import.meta.url)),
       },
       // 优化解析扩展名
-      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },
 
     // 开发服务器优化
@@ -61,32 +61,28 @@ export default defineConfig(({ command, mode }) => {
       cors: true, // 启用 CORS
       // 预热常用文件
       warmup: {
-        clientFiles: ['./src/components/**/*.vue', './src/views/**/*.vue']
+        clientFiles: ['./src/components/**/*.vue', './src/views/**/*.vue'],
       },
       // HMR 优化
       hmr: {
-        overlay: true // 显示错误覆盖层
-      }
+        overlay: true, // 显示错误覆盖层
+      },
     },
 
     // 预览服务器配置
     preview: {
       port: 4173,
-      host: '0.0.0.0'
+      host: '0.0.0.0',
     },
 
     // 依赖优化
     optimizeDeps: {
       // 预构建依赖
-      include: [
-        'vue',
-        'vue-router',
-        'pinia'
-      ],
+      include: ['vue', 'vue-router', 'pinia'],
       // 排除预构建
       exclude: ['vue-demi'],
       // 强制预构建
-      force: false
+      force: false,
     },
 
     // 构建优化
@@ -110,18 +106,18 @@ export default defineConfig(({ command, mode }) => {
           drop_console: mode === 'production',
           drop_debugger: mode === 'production',
           // 移除无用代码
-          pure_funcs: mode === 'production' ? ['console.log'] : []
+          pure_funcs: mode === 'production' ? ['console.log'] : [],
         },
         format: {
           // 移除注释
-          comments: false
-        }
+          comments: false,
+        },
       },
       // Rollup 选项
       rollupOptions: {
         // 输入配置
         input: {
-          main: fileURLToPath(new URL('./index.html', import.meta.url))
+          main: fileURLToPath(new URL('./index.html', import.meta.url)),
         },
         // 外部依赖 (CDN)
         external: [],
@@ -133,7 +129,9 @@ export default defineConfig(({ command, mode }) => {
           assetFileNames: (assetInfo) => {
             const info = assetInfo.name.split('.')
             let extType = info[info.length - 1]
-            if (/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(assetInfo.name)) {
+            if (
+              /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(assetInfo.name)
+            ) {
               extType = 'media'
             } else if (/\.(png|jpe?g|gif|svg)(\?.*)?$/i.test(assetInfo.name)) {
               extType = 'img'
@@ -145,31 +143,35 @@ export default defineConfig(({ command, mode }) => {
           // 代码分割
           manualChunks: (id) => {
             // 将 Vue 相关库打包到一个 chunk
-            if (id.includes('vue') || id.includes('vue-router') || id.includes('pinia')) {
+            if (
+              id.includes('vue') ||
+              id.includes('vue-router') ||
+              id.includes('pinia')
+            ) {
               return 'vue'
             }
             // 将 node_modules 中的其他第三方库打包到 vendor chunk
             if (id.includes('node_modules')) {
               return 'vendor'
             }
-          }
-        }
+          },
+        },
       },
       // 启用源码映射 (仅开发环境)
-      sourcemap: command === 'serve'
+      sourcemap: command === 'serve',
     },
 
     // CSS 优化
     css: {
       // 开发环境启用 source map
-      devSourcemap: command === 'serve'
+      devSourcemap: command === 'serve',
     },
 
     // 环境变量
     define: {
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: false,
-      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
     },
 
     // ESBuild 优化
@@ -181,7 +183,7 @@ export default defineConfig(({ command, mode }) => {
       // 压缩语法
       minifySyntax: mode === 'production',
       // 压缩空白
-      minifyWhitespace: mode === 'production'
+      minifyWhitespace: mode === 'production',
     },
 
     // 实验性功能
@@ -193,7 +195,7 @@ export default defineConfig(({ command, mode }) => {
         } else {
           return { relative: true }
         }
-      }
-    }
+      },
+    },
   }
 })
